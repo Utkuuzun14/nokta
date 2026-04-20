@@ -11,6 +11,8 @@ import { colors, radius, spacing, typography } from "../constants/theme";
 const EXAMPLE_IDEA =
   "Kampüste öğrencilerin boş sınıf bulmasını kolaylaştıran ve uygun saatleri gösteren mobil uygulama";
 
+const HIGHLIGHTS = ["4 kısa soru", "Tek sayfalık özet", "Odaklı MVP çıktısı"];
+
 export default function HomeScreen({ initialIdea, onStart }) {
   const [idea, setIdea] = useState(initialIdea || "");
   const [error, setError] = useState("");
@@ -48,22 +50,45 @@ export default function HomeScreen({ initialIdea, onStart }) {
   return (
     <ScreenContainer scroll contentContainerStyle={styles.content}>
       <View style={styles.hero}>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>Track A teslimi</Text>
+        <View style={styles.heroTopRow}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>Track A teslimi</Text>
+          </View>
+
+          <Text style={styles.helperLabel}>Nokta Capture</Text>
         </View>
 
         <SectionTitle
-          title="Nokta Capture"
-          description="Ham ürün fikrini kısa bir metin olarak yaz. Uygulama sonraki adımda 4 takip sorusu sorarak bunu daha okunabilir bir ürün özetine dönüştürecek."
+          title="Ham fikrini birkaç dakikada daha net bir ürüne dönüştür."
+          description="Aklındaki uygulama veya girişim fikrini kısa bir metin olarak yaz. Sonraki adımda uygulama sana 4 netleştirici soru soracak ve sonunda paylaşılabilir bir ürün özeti hazırlayacak."
         />
+
+        <View style={styles.highlightRow}>
+          {HIGHLIGHTS.map((item) => (
+            <View key={item} style={styles.highlightChip}>
+              <View style={styles.highlightDot} />
+              <Text style={styles.highlightText}>{item}</Text>
+            </View>
+          ))}
+        </View>
       </View>
 
       <SectionCard style={styles.mainCard}>
-        <SectionTitle
-          eyebrow="Adım 1"
-          title="Ham fikri yakala"
-          description="Net bir başlangıç yazman, sonraki soruları ve özeti daha güçlü hale getirir."
-        />
+        <View style={styles.inputHeader}>
+          <SectionTitle
+            eyebrow="Başlangıç"
+            title="Fikrini yaz"
+            description="Mükemmel olmak zorunda değil. Kısa, ham ve dağınık bir giriş bile yeterli."
+          />
+
+          <View style={styles.emptyStateBox}>
+            <Text style={styles.emptyStateTitle}>Ne yazabilirim?</Text>
+            <Text style={styles.emptyStateText}>
+              Sorun, kullanıcı veya çözüm fikrinden biriyle başlaman yeterli. Geri kalan netleştirme
+              bir sonraki adımda yapılacak.
+            </Text>
+          </View>
+        </View>
 
         <TextAreaField
           label="Ham fikir"
@@ -72,32 +97,33 @@ export default function HomeScreen({ initialIdea, onStart }) {
           placeholder="Örnek: öğrenciler için ortak ders çalışma planlama uygulaması"
           error={error}
           hint="Ne kadar net yazarsan, çıktı o kadar kullanışlı olur."
-          minHeight={150}
+          minHeight={160}
         />
 
         <ExampleIdeaCard
-          title="Hızlı başlangıç"
-          description="Örnek bir fikirle akışı hemen deneyebilirsin."
+          title="Hızlı başlamak istersen"
+          description="Örnek bir fikir seçip akışı birkaç saniyede deneyebilirsin."
           exampleText={EXAMPLE_IDEA}
           onPress={handleUseExample}
         />
 
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>Bu adımda ne oluyor?</Text>
-          <Text style={styles.infoText}>
-            Önce fikir yakalanıyor. Devam ettiğinde uygulama problem, kullanıcı, kapsam ve risk
-            başlıklarında 4 kısa soru soruyor.
-          </Text>
-        </View>
+        <View style={styles.ctaBlock}>
+          <View style={styles.ctaCopy}>
+            <Text style={styles.ctaTitle}>Bir sonraki adımda ne olacak?</Text>
+            <Text style={styles.ctaText}>
+              Problem, hedef kullanıcı, ilk sürüm kapsamı ve risk üzerine 4 kısa soru göreceksin.
+            </Text>
+          </View>
 
-        <PrimaryButton title="Devam Et" onPress={handleContinue} />
+          <PrimaryButton title="Devam Et" onPress={handleContinue} />
+        </View>
       </SectionCard>
 
-      <SectionCard tone="muted">
-        <Text style={styles.noteTitle}>Küçük ama net bir prototip</Text>
+      <SectionCard tone="muted" style={styles.footerNote}>
+        <Text style={styles.noteTitle}>Odaklı bir başlangıç ekranı</Text>
         <Text style={styles.noteText}>
-          Bu uygulama Nokta vizyonunun tamamını değil, challenge için en gösterilebilir dilimini
-          odağa alıyor: fikir girişi, soru akışı ve tek sayfalık özet.
+          Bu prototip tam platformu göstermeyi değil, kullanıcıya güven veren temiz bir ilk adım
+          deneyimi sunmayı hedefliyor.
         </Text>
       </SectionCard>
     </ScreenContainer>
@@ -109,8 +135,13 @@ const styles = StyleSheet.create({
     gap: spacing.xl
   },
   hero: {
-    gap: spacing.md,
+    gap: spacing.lg,
     paddingTop: spacing.xs
+  },
+  heroTopRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   badge: {
     alignSelf: "flex-start",
@@ -123,29 +154,78 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.primary
   },
+  helperLabel: {
+    ...typography.caption,
+    color: colors.textSoft
+  },
+  highlightRow: {
+    gap: spacing.sm
+  },
+  highlightChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: spacing.xs,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border
+  },
+  highlightDot: {
+    width: 8,
+    height: 8,
+    borderRadius: radius.pill,
+    backgroundColor: colors.accent
+  },
+  highlightText: {
+    ...typography.caption,
+    color: colors.text
+  },
   mainCard: {
     gap: spacing.lg
   },
-  infoBox: {
-    backgroundColor: colors.surfaceTint,
-    borderRadius: radius.md,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.primarySoft
+  inputHeader: {
+    gap: spacing.md
   },
-  infoTitle: {
+  emptyStateBox: {
+    padding: spacing.md,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceMuted,
+    borderWidth: 1,
+    borderColor: colors.border
+  },
+  emptyStateTitle: {
     ...typography.label,
     color: colors.text,
     marginBottom: spacing.xs
   },
-  infoText: {
+  emptyStateText: {
     ...typography.bodySm,
     color: colors.textMuted
   },
+  ctaBlock: {
+    gap: spacing.md,
+    marginTop: spacing.xs
+  },
+  ctaCopy: {
+    gap: spacing.xs
+  },
+  ctaTitle: {
+    ...typography.label,
+    color: colors.text
+  },
+  ctaText: {
+    ...typography.bodySm,
+    color: colors.textMuted
+  },
+  footerNote: {
+    gap: spacing.xs
+  },
   noteTitle: {
     ...typography.titleSm,
-    color: colors.text,
-    marginBottom: spacing.xs
+    color: colors.text
   },
   noteText: {
     ...typography.bodySm,
