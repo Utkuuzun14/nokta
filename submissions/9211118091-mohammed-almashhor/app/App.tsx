@@ -49,15 +49,15 @@ export default function App() {
     try {
       setIsLlmLoading(true);
       if (groqKey.trim() !== '') {
-        // ACTUAL AI GENERATION VIA GROQ
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        // ACTUAL AI GENERATION VIA xAI (Grok)
+        const response = await fetch('https://api.x.ai/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${groqKey}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
+            model: "grok-beta",
             messages: [{
               role: "system",
               content: `You are a brutal, top-tier engineering architect reviewing startup ideas. 
@@ -113,7 +113,7 @@ Example format: [{"id": "problem", "label": "💥 CORE FRICTION", "hint": "Why d
        console.log(e);
        // Fallback on error
        setProbes([
-          { id: 'problem', label: '⚠️ API ERROR (FALLBACK)', hint: `Check your Groq Key. For now: What is the core friction solved?` },
+          { id: 'problem', label: '⚠️ API ERROR (FALLBACK)', hint: `Check your xAI Key. For now: What is the core friction solved?` },
           { id: 'user', label: '💳 TARGET AUDIENCE', hint: `Who pays for this?` }
        ]);
     }
@@ -207,7 +207,7 @@ Example format: [{"id": "problem", "label": "💥 CORE FRICTION", "hint": "Why d
           />
           <TextInput
              style={{backgroundColor: '#13131A', borderWidth: 1, borderColor: '#262633', color: '#A882FF', borderRadius: 8, padding: 15, marginBottom: 20, fontSize: 13}}
-             placeholder="[OPTIONAL] Enter Groq API Key to enable Llama 3.3..."
+             placeholder="[OPTIONAL] Enter xAI (Grok) API Key to enable Live LLM..."
              placeholderTextColor="#444"
              secureTextEntry
              value={groqKey}
@@ -236,8 +236,8 @@ Example format: [{"id": "problem", "label": "💥 CORE FRICTION", "hint": "Why d
       {/* PHASE 2: SLOP CHECK (Transition) */}
       {phase === 'SLOP_CHECK' && (
         <View style={styles.contentCore}>
-          <Text style={styles.moduleTitle}>GROQ INFERENCE...</Text>
-          <Text style={styles.moduleSub}>{groqKey ? "Calling Llama 3.3 API..." : "Processing locally for extreme low-latency density check."}</Text>
+          <Text style={styles.moduleTitle}>xAI INFERENCE...</Text>
+          <Text style={styles.moduleSub}>{groqKey ? "Calling Grok-beta API..." : "Processing locally for extreme low-latency density check."}</Text>
           {isLlmLoading ? (
             <Text style={{color: '#A882FF', marginTop: 10}}>Awaiting API JSON Response...</Text>
           ) : (
@@ -289,7 +289,7 @@ Example format: [{"id": "problem", "label": "💥 CORE FRICTION", "hint": "Why d
               </View>
               <View>
                  <Text style={{ color: getScoreColor(trustScore), fontSize: 14, fontWeight: 'bold', letterSpacing: 1 }}>CONFIDENCE SCORE</Text>
-                 <Text style={{ color: '#888896', fontSize: 11, marginTop: 2 }}>Engine: LLAMA 3.3 (GROQ)</Text>
+                 <Text style={{ color: '#888896', fontSize: 11, marginTop: 2 }}>Engine: xAI (GROK-BETA)</Text>
               </View>
             </View>
           </View>
