@@ -40,15 +40,40 @@ export default function App() {
     if (ideaDot.trim().length < 10) return;
     setPhase('SLOP_CHECK');
     
-    // Extract a small snippet to make questions feel tailored
-    const ideaSnippet = ideaDot.length > 25 ? ideaDot.substring(0, 25) + "..." : ideaDot;
+    const lowercaseIdea = ideaDot.toLowerCase();
+    const ideaSnippet = ideaDot.length > 20 ? ideaDot.substring(0, 20) + "..." : ideaDot;
     
-    const dynamicProbes = [
-      { id: 'problem', label: 'PROBLEM ISOLATION', hint: `What exact problem does "${ideaSnippet}" solve for the user today?` },
-      { id: 'user', label: 'TARGET AUDIENCE', hint: `Who is the primary target audience that desperately needs this solution?` },
-      { id: 'scope', label: 'MVP SPECIFICATION', hint: `What is the absolute bare-minimum feature set required to launch this?` },
-      { id: 'constraint', label: 'RISK FACTOR', hint: `What is the biggest technical or adoption risk for this idea?` }
-    ];
+    let dynamicProbes = [];
+    if (lowercaseIdea.includes('game') || lowercaseIdea.includes('play') || lowercaseIdea.includes('fun')) {
+      dynamicProbes = [
+        { id: 'problem', label: '🎮 CORE LOOP', hint: `What is the core 30-second gameplay loop that makes "${ideaSnippet}" addictive?` },
+        { id: 'user', label: '🎯 PLAYER DEMOGRAPHIC', hint: `Is this for casual mobile commuters or hardcore PC gamers? Be specific.` },
+        { id: 'scope', label: '🚧 MVP SCOPE', hint: `What asset classes (multiplayer, 3D, skins) will you EXCLUDE from v1?` },
+        { id: 'constraint', label: '⚙️ ENGINE RISK', hint: `What is the hardest rendering, latency, or state synching problem here?` }
+      ];
+    } else if (lowercaseIdea.includes('hardware') || lowercaseIdea.includes('device') || lowercaseIdea.includes('sensor')) {
+      dynamicProbes = [
+        { id: 'problem', label: '🔌 PHYSICAL FRICTION', hint: `Hardware is brutal. Why can't "${ideaSnippet}" simply be a software app?` },
+        { id: 'user', label: '🏭 EARLY ADOPTER', hint: `Who is willing to pay the premium hardware margin for this device today?` },
+        { id: 'scope', label: '📏 PROTOTYPE SCOPE', hint: `What does the v1 prototype look like? (e.g. bare circuit board, 3D printed?)` },
+        { id: 'constraint', label: '📉 SUPPLY BOTTLENECK', hint: `Which physical component (chip, battery, casing) is your biggest supply risk?` }
+      ];
+    } else if (lowercaseIdea.includes('ai') || lowercaseIdea.includes('data') || lowercaseIdea.includes('automation')) {
+      dynamicProbes = [
+        { id: 'problem', label: '🧠 DATA MOAT', hint: `Everyone uses AI. What unique proprietary data makes "${ideaSnippet}" defensible?` },
+        { id: 'user', label: '💼 END-USER WORKFLOW', hint: `Whose specific daily 9-to-5 job is this AI automating or replacing?` },
+        { id: 'scope', label: '✂️ FEATURE PRUNING', hint: `What AI capabilities (voice, imagegen, agent loops) will you strictly cut for the MVP?` },
+        { id: 'constraint', label: '💸 INFERENCE COSTS', hint: `How will you survive the massive API rate limits or LLM hosting costs for this?` }
+      ];
+    } else {
+      dynamicProbes = [
+        { id: 'problem', label: '🔍 PROBLEM ISOLATION', hint: `What exact painful friction does "${ideaSnippet}" solve for the user today?` },
+        { id: 'user', label: '💳 TARGET PAYER', hint: `Who is the desperate buyer that will literally pay $10/mo for this immediately?` },
+        { id: 'scope', label: '🔪 EXCLUSION ZONE', hint: `List exactly 3 cool features you MUST cut from the v1 release to launch in 2 weeks.` },
+        { id: 'constraint', label: '🚧 FATAL RISK', hint: `What is the single biggest technical, legal, or adoption risk for this idea?` }
+      ];
+    }
+    
     setProbes(dynamicProbes);
     
     // Simulate AI Slop Check
