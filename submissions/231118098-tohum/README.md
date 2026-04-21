@@ -18,14 +18,37 @@ Tohum, ham bir fikri AI destekli rehberli sohbetle NOKTA `idea.md` standardında
 | 60 saniyelik demo video | _{kayıt sonrası eklenecek}_ |
 | APK indirme | [`./app-release.apk`](./app-release.apk) _{build sonrası}_ |
 
-Yerel çalıştırma:
+### Yerel Çalıştırma
+
 ```bash
 cd app
 npm install
+cp .env.example .env    # sonra .env içine kendi ANTHROPIC key'ini koy
 npx expo start
 ```
 
-`ANTHROPIC_API_KEY` için `.env.example` dosyasına bak; kendi anahtarını `.env` dosyasında sakla (gitignore'da).
+Expo Go ile telefondan QR kodu okut. `EXPO_PUBLIC_ANTHROPIC_API_KEY` boş olduğunda chat ekranında _"ANTHROPIC_API_KEY bulunamadı"_ hatası görürsün — bu beklenen davranış, key'i koyunca akış canlanır.
+
+### APK Build (EAS)
+
+```bash
+cd app
+npm install -g eas-cli            # ilk kez
+eas login                         # Expo hesabınla giriş yap
+eas build --platform android --profile preview
+```
+
+Build bitince EAS sana indirme linki verir (`https://expo.dev/artifacts/...`). İndirilen APK'yı `submissions/231118098-tohum/app-release.apk` olarak komite et. Build, çevredeki `.env` dosyasını okuyup `EXPO_PUBLIC_ANTHROPIC_API_KEY`'i APK içine gömer — demo sonrası key'i Anthropic console'dan revoke et.
+
+### Sürüm Bilgisi
+
+| Alan | Değer |
+|---|---|
+| Expo SDK | 54 |
+| React Native | 0.81 |
+| LLM | Claude Sonnet 4.6 |
+| Paket (Android) | `com.aleynaerrsln.tohum` |
+| Uygulama sürümü | 1.0.0 (versionCode 1) |
 
 ---
 
@@ -112,11 +135,36 @@ Rate limit, alternatif tool veya tool değişikliği gerekirse bu bölümde notl
 
 ```
 submissions/231118098-tohum/
-├── README.md                 ← bu dosya
-├── idea.md                   ← Track A manifesto
-├── app/                      ← Expo + React Native app
-│   ├── app.json
+├── README.md                       ← bu dosya
+├── idea.md                         ← Track A manifesto
+├── app/                            ← Expo + React Native uygulaması
+│   ├── app.json                    ← Tohum metadata, Android paket bilgisi
+│   ├── eas.json                    ← EAS Build profilleri (APK)
 │   ├── package.json
-│   └── app/                  ← Expo Router ekranları
-└── app-release.apk           ← EAS Build çıktısı
+│   ├── .env.example                ← Anthropic key placeholder
+│   ├── app/                        ← Expo Router ekranları
+│   │   ├── _layout.tsx             ← Font yükleme + root stack
+│   │   ├── index.tsx               ← Yeni Nokta (giriş)
+│   │   ├── chat.tsx                ← Nokta Chat
+│   │   ├── spec.tsx                ← Spec Hazır (idea.md render)
+│   │   └── history.tsx             ← Fikirlerim
+│   ├── components/
+│   │   ├── chat/
+│   │   │   ├── message-bubble.tsx
+│   │   │   ├── typing-indicator.tsx
+│   │   │   ├── input-bar.tsx
+│   │   │   ├── suggestion-chips.tsx
+│   │   │   ├── rubric-progress.tsx
+│   │   │   └── generate-banner.tsx
+│   │   └── spec/
+│   │       └── section-card.tsx
+│   ├── constants/
+│   │   ├── theme.ts                ← Stitch paleti + tipografi tokenleri
+│   │   ├── prompt.ts               ← Nokta AI system prompt (6 kural)
+│   │   ├── schema.ts               ← AI cevap şeması + runtime doğrulama
+│   │   └── idea-md.ts              ← Final manifesto parser
+│   └── services/
+│       ├── nokta-ai.ts             ← Anthropic SDK wrapper, tipli hatalar
+│       └── storage.ts              ← AsyncStorage — Fikirlerim
+└── app-release.apk                 ← EAS Build çıktısı (build sonrası)
 ```
