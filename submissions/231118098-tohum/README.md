@@ -14,20 +14,20 @@ Tohum, ham bir fikri AI destekli rehberli sohbetle NOKTA `idea.md` standardında
 
 | Kanal | Bağlantı |
 |---|---|
-| Expo QR / Link | _{APK build sonrası eklenecek}_ |
-| 60 saniyelik demo video | _{kayıt sonrası eklenecek}_ |
-| APK indirme | [`./app-release.apk`](./app-release.apk) _{build sonrası}_ |
+| 60 saniyelik demo video | https://youtube.com/shorts/OSNfmsCfokQ |
+| APK indirme (repo içi) | [`./app-release.apk`](./app-release.apk) |
+| EAS Build sayfası | https://expo.dev/accounts/aerarslan1919/projects/tohum/builds/9895cf49-bba3-4bb1-9752-4c63aebcb0ea |
 
 ### Yerel Çalıştırma
 
 ```bash
 cd app
 npm install
-cp .env.example .env    # sonra .env içine kendi ANTHROPIC key'ini koy
+cp .env.example .env    # sonra .env içine en az bir sağlayıcı key'ini koy
 npx expo start
 ```
 
-Expo Go ile telefondan QR kodu okut. `EXPO_PUBLIC_ANTHROPIC_API_KEY` boş olduğunda chat ekranında _"ANTHROPIC_API_KEY bulunamadı"_ hatası görürsün — bu beklenen davranış, key'i koyunca akış canlanır.
+Expo Go ile telefondan QR kodu okut. `.env` boş olduğunda chat ekranında _"Hiçbir AI sağlayıcı anahtarı bulunamadı"_ hatası görürsün — bu beklenen davranış. İki key'den en az biri dolu olduğunda akış canlanır; ikisi de doluysa Gemini primary, Groq fallback.
 
 ### APK Build (EAS)
 
@@ -38,7 +38,7 @@ eas login                         # Expo hesabınla giriş yap
 eas build --platform android --profile preview
 ```
 
-Build bitince EAS sana indirme linki verir (`https://expo.dev/artifacts/...`). İndirilen APK'yı `submissions/231118098-tohum/app-release.apk` olarak komite et. Build, çevredeki `.env` dosyasını okuyup `EXPO_PUBLIC_ANTHROPIC_API_KEY`'i APK içine gömer — demo sonrası key'i Anthropic console'dan revoke et.
+Build bitince EAS sana indirme linki verir (`https://expo.dev/artifacts/...`). İndirilen APK'yı `submissions/231118098-tohum/app-release.apk` olarak komite et. Build, çevredeki `.env` dosyasını okuyup `EXPO_PUBLIC_GEMINI_API_KEY` ve `EXPO_PUBLIC_GROQ_API_KEY`'i APK içine gömer — demo sonrası iki key'i de ilgili konsollardan revoke et.
 
 ### Sürüm Bilgisi
 
