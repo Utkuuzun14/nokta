@@ -28,6 +28,10 @@ https://expo.dev/accounts/gizemtangel/projects/learndot
 
 
 
+> Uygulamayı çalıştırmak için: repo'yu clone et, `cd submissions/231118020-learndot/app \&\& npm install \&\& npx expo start`
+
+
+
 \## APK
 
 app-release.apk klasörde mevcut.
