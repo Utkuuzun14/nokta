@@ -1,7 +1,7 @@
 # Nokta Away Mission - Track A (Dot Capture & Enrich)
 
 **Öğrenci No:** 231118016
-**Ad Soyad:** Mert Ali
+**Ad Soyad:** Mert Ali keleş
 
 ## Proje Hakkında
 Bu proje, "Nokta" uygulamasının bir dilimi olan "Dot Capture & Enrich" akışını gerçekleştirir. Kullanıcıdan ham bir fikir alınır, Gemini AI kullanılarak değerlendirilir ve eksik noktalar tespit edilip kullanıcıya sorularak olgunlaştırılmış bir Specification (Spec) belgesi üretilir.
