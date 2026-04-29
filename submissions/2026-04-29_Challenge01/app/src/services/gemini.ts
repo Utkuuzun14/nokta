@@ -2,7 +2,7 @@ import { SYSTEM_PROMPT } from '@/prompts/system';
 import type { Question, Spec } from '@/types';
 import { isRetryableStatus, backoff } from './streaming';
 
-const MODEL = 'gemini-2.0-flash';
+const MODEL = 'gemini-2.5-flash';
 
 async function callGemini(apiKey: string, prompt: string, maxAttempts = 3): Promise<string> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;

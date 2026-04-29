@@ -85,15 +85,17 @@ export default function CaptureScreen() {
         editable={!voice.listening && !loading}
       />
 
-      <View style={styles.row}>
-        <Button
-          variant={voice.listening ? 'danger' : 'ghost'}
-          onPress={voice.listening ? voice.stop : voice.start}
-          style={styles.flex1}
-        >
-          {voice.listening ? 'Dinliyor… durdur' : '🎙  Sesli not'}
-        </Button>
-      </View>
+      {voice.supported ? (
+        <View style={styles.row}>
+          <Button
+            variant={voice.listening ? 'danger' : 'ghost'}
+            onPress={voice.listening ? voice.stop : voice.start}
+            style={styles.flex1}
+          >
+            {voice.listening ? 'Dinliyor… durdur' : '🎙  Sesli not'}
+          </Button>
+        </View>
+      ) : null}
       {voice.error ? <Text style={styles.warn}>{voice.error}</Text> : null}
 
       <Button onPress={onContinue} disabled={loading || providers.length === 0}>
