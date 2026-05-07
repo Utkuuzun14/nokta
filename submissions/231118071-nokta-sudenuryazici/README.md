@@ -1,5 +1,4 @@
 # 💎 Nokta Canvas: AI-Orchestrated Dashboard Engine
-### Final Projesi - Sudenur Yazıcı (231118071)
 
 [![Watch the Video](https://img.shields.io/badge/YouTube-Video%20Tan%C4%B1t%C4%B1m%C4%B1-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=NSeE4xDOXiM)
 
