@@ -4,11 +4,11 @@
 
 ---
 
-## 📖 Proje Hakkında: Nokta Canvas Nedir?
+## 📖 Proje Hakkında: Nokta Canvas ve Harness Engineering
 
-**Nokta Canvas**, veriyi sadece sunmakla kalmayan, onu yapay zeka ile anlamlandırıp saniyeler içinde profesyonel birer arayüze dönüştüren bir **Dashboard Motorudur.** 
+**Nokta Canvas**, "Human-in-the-loop" (İnsan döngüde) prensibiyle çalışan ve **Harness Engineering** yaklaşımını temel alan bir **Human-Oriented Orchestration (HOOP)** platformudur. 
 
-Bu proje, karmaşık Google Sheets verilerini analiz ederek; yönetici özetlerinden (Executive), detaylı performans analizlerine (Detailed) kadar 4 farklı tasarım perspektifini anlık olarak üretir. Projenin kalbinde, kullanıcıyla etkileşime giren ve tasarımı canlı olarak revize eden **Nova** isimli 3D yapay zeka asistanı yer almaktadır.
+Veriyi sadece yapay zeka ile görselleştirmekle kalmaz; AI'nın yetersiz kaldığı durumlarda, süreci kesintisiz bir şekilde insan uzmanlara devreden (**Rent a Human**) bir köprü görevi görür. 
 
 ### 🧠 Yapay Zeka Mimarisi (Neden İki Farklı API?)
 Sistem, en yüksek kararlılık ve performans için **Hibrit Yapay Zeka** modeli kullanmaktadır:
@@ -25,7 +25,7 @@ Nokta Canvas, veriyi görselleştirmek için şu 4 aşamalı akıllı süreci iz
 2.  **Derin Analiz (Metadata Analysis)**: Sistem, tablodaki tüm sütun başlıklarını, veri tiplerini (sayı, tarih, metin) ve satır sayılarını otomatik olarak tarar.
 3.  **Yapay Zeka Eşleştirmesi**: Gemini AI, analiz edilen bu verileri alır ve her veri tipine en uygun görsel bileşeni (KPI kartı, grafik, ilerleme çubuğu vb.) seçerek bir **Dashboard Şeması** oluşturur.
 4.  **Anlık Üretim ve Revize**: Şema, Tailwind CSS bileşenlerine dönüştürülerek ekrana basılır. Kullanıcı, asistan Nova'ya "Bu tabloyu kırmızı yap" veya "Satışları en üste al" dediğinde, sistem tüm süreci saniyeler içinde baştan koşturarak tasarımı günceller.
-5.  **Uzman Desteği (Human-in-the-loop)**: Yapay zekanın yetersiz kaldığı veya profesyonel bir görüşe ihtiyaç duyulan durumlarda, sistem tüm verileri ve mevcut tasarımı bir uzman havuzuna aktararak gerçek bir tasarımcıdan destek alınmasını sağlar.
+5.  **Uzman Desteği (Rent a Human)**: Yapay zekanın yetersiz kaldığı veya profesyonel bir görüşe ihtiyaç duyulan durumlarda, sistem "Human-in-the-loop" prensibiyle veriyi bir insan uzmana aktarır. Bu sayede HOOP (Human-Oriented Orchestration) döngüsü tamamlanmış olur.
 
 ---
 
