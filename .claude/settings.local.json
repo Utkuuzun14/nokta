@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Get-ChildItem -Path \"a:\\\\YZM304\\\\week10\\\\nokta\\\\submissions\\\\9221118097-note-migrator\" -Recurse -Exclude \"node_modules\" -ErrorAction SilentlyContinue | ForEach-Object { if \\($_.PSIsContainer\\) { \"[$\\($_.FullName\\)]\" } else { $_.FullName } } | head -100)"
-    ]
-  }
-}
