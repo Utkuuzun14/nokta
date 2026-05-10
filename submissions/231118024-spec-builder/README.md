@@ -37,9 +37,9 @@ Projeyi geliştirirken alınan kritik mimari kararlar ve akademik/teknik gerekç
 
 | Materyal | Link |
 | :--- | :--- |
-| **Expo Go QR Kodu** | *[Buraya Expo Go QR Kodu Gelecek]* |
-| **Demo Videosu** | *[Buraya 60 Saniyelik Demo Videosu Linki Gelecek]* |
-| **APK İndir** | *[Buraya app-release.apk İndirme Linki Gelecek]* |
+| **Expo Go QR Kodu** | ![Expo QR Kodu](https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://expo.dev/accounts/begummmm/projects/nokta/builds/a7714e3a-a39b-4b8c-96cf-56292e8e5065) |
+| **Demo Videosu** | *[https://youtube.com/shorts/iTIeYmxrl3Q?feature=share*] |
+| **APK İndir** | **[app-release.apk Dosyasını İndir](./app-release2.apk)** |
 
 ---
 
