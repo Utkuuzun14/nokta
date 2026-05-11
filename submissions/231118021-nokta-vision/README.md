@@ -24,6 +24,11 @@ Ham fikir (text input) → AI mühendislik mülakatı (3 soru: Problem, Kullanı
 [Markdown formatında Product Spec gösterilir + paylaşılabilir]
 ```
 
+### 🧠 Expert Support & HOOP (Human-on-the-loop)
+Standart AI akışının yetersiz kaldığı veya kullanıcının stratejik bir derinliğe ihtiyaç duyduğu anlarda devreye giren **Strateji Uzmanı** modülü eklendi. Bu modül:
+- **HOOP Mantığı:** AI'nın genel yeteneklerinden ziyade, belirli bir "Senior Product Manager" personasına bürünmüş, daha kısıtlı ama daha derinlemesine bir uzmanlık sunar.
+- **Dinamik Sohbet:** Kullanıcı, fikrinin pazar değerini veya teknik uygulanabilirliğini bu uzmanla birebir tartışabilir.
+
 ---
 
 ## 📱 Expo Bağlantısı
@@ -73,6 +78,8 @@ npx expo start
 | 11:00 | Retry logic eklendi | Ücretsiz modeller zaman zaman 429 dönüyor; 15/30/45s backoff ile otomatik yeniden deneme sağlandı |
 | 11:10 | Türkçe prompt | Kullanıcı deneyimini lokalize etmek için prompt dili Türkçe'ye alındı |
 | 11:15 | Custom Markdown renderer yazıldı | React Native'de `react-native-markdown` yerine sıfırdan renderer — `##`, `-`, `**` parse edilip stilize native component olarak render ediliyor |
+| 22:30 | Expert Support (HOOP) eklendi | PR #86 ve #92'deki başarılı "İnsan Desteği" desenleri projeye uyarlandı. Stratejik derinlik için ayrı bir persona tanımlandı |
+| 22:45 | Groq/Llama-3.3 Entegrasyonu | Uzman desteği için daha yüksek parametreli ve hızlı bir model (Llama-3.3-70b) tercih edildi |
 
 ---
 
@@ -84,6 +91,8 @@ npx expo start
 - **Premium UI** — Glow efektleri, glassmorphism kartlar, slide animasyonları
 - **Paylaş** — Üretilen spec anında Share API ile paylaşılabilir
 - **Custom Markdown** — `##`, bullet, kalın metin native olarak stilize render
+- **Stratejik Uzman Desteği (HOOP)** — Ürün stratejisi konusunda derinlemesine danışmanlık veren özel AI personası
+- **Gelişmiş AI Modeli** — Uzman desteği için Llama-3.3-70b (via OpenRouter) kullanımı
 
 ---
 
@@ -98,9 +107,10 @@ npx expo start
     │   ├── _layout.tsx
     │   ├── index.tsx      ← Karşılama & fikir girişi
     │   ├── interview.tsx  ← AI mülakat akışı
-    │   └── result.tsx     ← Product spec görüntüleme
+    │   ├── result.tsx     ← Product spec görüntüleme
+    │   └── expert.tsx     ← Stratejik uzman desteği (HOOP)
     └── services/
-        └── gemini.ts      ← OpenRouter API servisi
+        └── gemini.ts      ← AI servisleri (OpenRouter)
 ```
 
 ---

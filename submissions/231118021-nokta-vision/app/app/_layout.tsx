@@ -10,6 +10,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" />
         <Stack.Screen name="interview" />
         <Stack.Screen name="result" />
+        <Stack.Screen name="expert" />
       </Stack>
       <StatusBar style="light" />
     </ThemeProvider>

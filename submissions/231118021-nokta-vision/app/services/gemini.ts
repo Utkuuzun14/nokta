@@ -47,6 +47,43 @@ export async function askAI(prompt: string, retries = 3): Promise<string> {
   return data.choices[0].message.content;
 }
 
+export async function askExpert(messages: {role: string, content: string}[], retries = 3): Promise<string> {
+  const EXPERT_MODEL = 'meta-llama/llama-3.3-70b-instruct'; // Daha güçlü model
+  const systemPrompt = {
+    role: 'system',
+    content: `Sen Nokta Projesi'nin "Kıdemli Ürün Stratejisti Kerem"sin. 
+    Görevin: Kullanıcıların teknoloji fikirlerini pazar uyumu, gelir modeli ve teknik sürdürülebilirlik açısından analiz etmektir.
+    Kişilik: Vizyoner, hafif sert ama yapıcı, profesyonel bir danışman. 
+    Kısıtlamalar: Sadece ürün stratejisi konuş. Kod yazma. 
+    Cevaplarında mutlaka şu üçlemeden en az birine değin: "Pazar İhtiyacı", "Teknik Borç" veya "Ölçeklenebilirlik".
+    Türkçe konuş ve her zaman profesyonel kal.`
+  };
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://nokta.app',
+      'X-Title': 'Nokta Vision Expert',
+    },
+    body: JSON.stringify({
+      model: EXPERT_MODEL,
+      messages: [systemPrompt, ...messages],
+    }),
+  });
+
+  if (response.status === 429 && retries > 0) {
+    const waitMs = (4 - retries) * 15000;
+    await sleep(waitMs);
+    return askExpert(messages, retries - 1);
+  }
+
+  const data = await response.json();
+  if (data.error) throw new Error(data.error.message || 'API Error');
+  return data.choices[0].message.content;
+}
+
 export async function generateEngineeringQuestions(idea: string): Promise<string[]> {
   const prompt = `Sen Nokta AI'sın, mühendislik odaklı bir fikir geliştirme asistanısın. Kullanıcının ham fikri: "${idea}". 
   Bu fikri bir ürün spesifikasyonuna dönüştürmek için tam olarak 3 kritik mühendislik sorusu oluştur.
