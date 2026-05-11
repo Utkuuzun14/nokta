@@ -26,3 +26,8 @@ npx expo start
 - [x] `app-release.apk` (Derlenmiş APK eklendi)
 - [x] **Demo Video:** [YouTube üzerinden izle](https://youtube.com/shorts/jCe-x0BJ4jg?feature=share)
 - [x] **APK İndirme Linki:** [EAS Build üzerinden indir](https://expo.dev/artifacts/eas/57tFcsAAUcF5unT4cPZfJa.apk)
+
+## AI Tool Log
+Bu projenin geliştirme sürecinde aşağıdaki yapay zeka araçları kullanılmıştır:
+- **Google Gemini 3.1 Pro (via Antigravity):** Uygulama geliştirme aşamasında (React Native & Expo), Groq API entegrasyonunda, UI optimizasyonlarında ve hata ayıklama süreçlerinde pair-programming asistanı olarak kod üretimi için kullanıldı.
+- **Groq API (Llama 3.3 70b Versatile):** Uygulamanın içerisine doğrudan entegre edilerek, kullanıcının hikayelerini analiz edip zenginleştiren, senaryo dokümanı (Spec) üreten ve simüle edilmiş "Uzman" (Hoop) geri bildirimleri sağlayan motor olarak görev aldı.
