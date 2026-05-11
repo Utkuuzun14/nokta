@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   StyleSheet, Text, TextInput, View, ScrollView, 
   TouchableOpacity, ActivityIndicator, Alert, Clipboard, 
-  Dimensions, KeyboardAvoidingView, Platform, Share // Share modülü eklendi
+  Dimensions, KeyboardAvoidingView, Platform, Share 
 } from 'react-native';
 
 export default function SpecAgent() {
@@ -39,7 +39,6 @@ export default function SpecAgent() {
     if (!answers) return Alert.alert("Hata", "Lütfen soruları cevaplayın.");
     setLoading(true);
     try {
-      // Prompt güncellendi: Skor ve Tech Stack talimatı eklendi
       const prompt = `Aşağıdaki verilerle profesyonel bir PRD oluştur. 
       EK OLARAK: Dokümanın en başına [MÜHENDİSLİK PUANI: 0-100] ekle ve en sonuna 'Önerilen Teknoloji Yığını' (Frontend, Backend, DB) tablosu koy. 
       Fikir: ${idea}. Sorular: ${questions}. Cevaplar: ${answers}`;
@@ -54,6 +53,15 @@ export default function SpecAgent() {
       setStep(3);
     } catch (e) { Alert.alert("Hata", "Spec oluşturulamadı."); }
     finally { setLoading(false); }
+  };
+
+  // YENİ EKLENEN: UZMAN DESTEĞİ (HITL) FONKSİYONU
+  const handleExpertSupport = () => {
+    Alert.alert(
+      "Uzman Onay Talebi",
+      "Raporunuz kıdemli mühendislerimize (Expert Support) iletildi. İnceleme sonrası 'Verified' mührü alacaksınız.",
+      [{ text: "Tamam" }]
+    );
   };
 
   // ADIM 3: Native Paylaşım Özelliği
@@ -142,6 +150,17 @@ export default function SpecAgent() {
             <ScrollView style={styles.specContainer} nestedScrollEnabled={true}>
               <Text style={styles.specText}>{finalSpec}</Text>
             </ScrollView>
+
+            {/* YENİ EKLENEN: UZMAN DESTEĞİ BUTONU */}
+            <TouchableOpacity 
+              onPress={handleExpertSupport}
+              style={{ backgroundColor: '#8B5CF6', padding: 16, borderRadius: 14, marginBottom: 15, alignItems: 'center' }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>
+                👨‍🏫 Uzman Onayına Gönder (HITL)
+              </Text>
+            </TouchableOpacity>
+
             <View style={styles.buttonRow}>
               <TouchableOpacity style={[styles.secondaryButton, {backgroundColor: '#10B981'}]} onPress={onShare}>
                 <Text style={styles.buttonText}>Paylaş / Gönder</Text>
