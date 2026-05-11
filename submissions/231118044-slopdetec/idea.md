@@ -17,6 +17,7 @@ Nokta'nın Track B (Slop Detector) modülü otonom bir risk değerlendirme ve ka
 3. Fikrin "hayal ürünü" olma veya mantıksız iddiaya dayanma seviyesine göre **0 ile 100 arasında bir Slop Score** belirlenir. (100 = Tamamen Slop, 0 = Tamamen slop-free spesifikasyona hazır).
 4. AI ajanı net ve rasyonel bir dille (**reason**) yatırımcıya ya da girişimciye argümandaki delikleri çıkarır.
 5. Nihayetinde tohum fikir tamamen anlamsız değilse, Nokta felsefesine sadık biçimde "slopsuz/çöpsüz", teknik bağımlılıkları ve sınırları (constraint) olan, yatırım testini (QA) geçmiş uygulanabilir bir taslağa (**correctedPitch**) dönüştürülür.
+6. **Human-in-the-Loop (Uzman Onayı):** Kararın kritik olduğu veya AI analizinin yetersiz kaldığı "şüpheli" durumlarda, sistem tek tuşla tüm analiz raporunu Nokta'nın gerçek Red-Team uzmanlarına e-posta ile asenkron olarak göndererek insan onayına sunar.
 
 ## 4. Etki ve Neden Şimdi (Why Now?)
 Yapay zekanın üretimi ucuzlattığı  günümüzde doğru fikri filtrelemek en büyük ihtiyaçtır. Slop Detector (Otomatize Due Diligence) ile melek yatırımcılar, masalarına gelen ürünü saniyeler içinde test edip, Nokta'nın onayından geçmemiş ("Slop" skoru yüksek) projelere randevu bile vermeyerek on binlerce dolarlık ar-ge & QA sürecinden tasarruf ederler. Nokta tek başına tarafsız, analitik yıkıcı (disruptive) bir **Yatırım Ön Filtresi (Fikir Hakemi)** olur.
