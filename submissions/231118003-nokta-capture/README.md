@@ -17,13 +17,13 @@ Ham fikirleri ("nokta") yakalayıp, mühendislik disiplini ile sorgulayan ve aya
 ---
 
 ## 📱 APK İndirme Bağlantısı
-- [APK'yı İndirmek İçin Tıklayın](https://expo.dev/artifacts/eas/bcQ2b8E5evjMsq9nTm3SYw.apk)
-*(Ayrıca bu klasörde app-release.apk olarak mevcuttur)*
+- [📦 app-release.apk Dosyasını İndir](./app-release.apk)
+*(Bu GitHub reposunda bulunan güncel APK dosyasına tıklayarak veya indirerek doğrudan test edebilirsiniz).*
 
 ---
 
 ## 🎬 Demo Videosu
-- [YouTube Üzerinden İzle](https://youtube.com/shorts/vEBJpCgyBOM?feature=share)
+- [YouTube Üzerinden İzle (Yeni HITL Özelliği)](https://youtube.com/shorts/06iyMkiMjMo?feature=share)
 
 ---
 
@@ -31,7 +31,7 @@ Ham fikirleri ("nokta") yakalayıp, mühendislik disiplini ile sorgulayan ve aya
 1. **Fikir Yakalama:** Ana ekranda ham fikrin (dot) girişi.
 2. **AI Zenginleştirme:** Gemini AI tarafından sorulan 5 kritik mühendislik sorusu (Problem, Kullanıcı, Kapsam, Kısıtlar, Başarı Metrikleri).
 3. **Spec Üretimi:** Verilen cevapların sentezlenerek profesyonel bir ürün kartına dönüştürülmesi.
-4. **Geçmiş Yönetimi:** Üretilen tüm spec'lerin yerel cihazda güvenli şekilde saklanması.
+4. **Uzman Onayı (Human-in-the-Loop):** Yapay zekanın ürettiği spesifikasyonun, uygulamanın içinden çıkmadan bir insan/uzman tarafından eleştirilmesi ve AI'nin bu eleştiriyi alarak belgeyi baştan yazması (Expert Critique Loop).
 
 ---
 
@@ -63,4 +63,5 @@ Ham fikirleri ("nokta") yakalayıp, mühendislik disiplini ile sorgulayan ve aya
 ---
 
 ## ✨ Bonus Capability (+10 Puan)
-**Engineering-Guided AI Loop:** Uygulama sadece metin üretmez; kullanıcıyı 5 aşamalı bir "Engineering Trace" sürecine sokar. Bu süreç, fikrin "slop" (çöp veri) olmasını engelleyerek gerçek bir ürün iskeleti oluşmasını sağlar.
+**1. Engineering-Guided AI Loop:** Uygulama sadece metin üretmez; kullanıcıyı 5 aşamalı bir "Engineering Trace" sürecine sokar. Bu süreç, fikrin "slop" (çöp veri) olmasını engelleyerek gerçek bir ürün iskeleti oluşmasını sağlar.
+**2. Expert Critique Loop (Human-in-the-Loop):** Fikir üretildikten sonra, sisteme dahil olan gerçek bir uzmanın uygulamaya "Eleştiri/Yönlendirme" yazması sağlanır. Yapay zeka bu insan yönlendirmesini (feedback) girdi olarak kabul edip, dokümanı uzmanın isteğine göre anında yeniden yazar. Gerçek bir AI-İnsan işbirliği sunar.
