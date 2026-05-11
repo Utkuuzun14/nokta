@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Linking,
 } from 'react-native';
 import { StackNavigationProp as NativeStackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -91,6 +92,12 @@ export default function QuestionFlowScreen({ navigation, route }: Props) {
               <TouchableOpacity style={styles.retryBtn} onPress={loadQuestion}>
                 <Text style={styles.retryText}>Tekrar Dene</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.humanBtn}
+                onPress={() => Linking.openURL(`mailto:?subject=NOKTA%20Fikir%20Yard%C4%B1m%C4%B1&body=Fikrim%3A%20${encodeURIComponent(idea)}%0A%0AAI%20yan%C4%B1t%20veremedi.%20Bu%20fikri%20geli%C5%9Ftirmeme%20yard%C4%B1mc%C4%B1%20olur%20musun%3F`)}
+              >
+                <Text style={styles.humanBtnText}>👤 Uzman Desteği Al</Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <Text style={styles.questionText}>{currentQuestion}</Text>
@@ -170,4 +177,6 @@ const styles = StyleSheet.create({
   errorText: { color: '#ff4444', fontSize: 14, lineHeight: 22 },
   retryBtn: { marginTop: 12, padding: 10 },
   retryText: { color: '#6c47ff', fontSize: 14 },
+  humanBtn: { marginTop: 8, padding: 10, backgroundColor: '#1a1a1a', borderRadius: 8, borderWidth: 1, borderColor: '#333', alignItems: 'center' },
+  humanBtnText: { color: '#aaa', fontSize: 14 },
 });
