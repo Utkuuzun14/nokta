@@ -1,5 +1,24 @@
 # SlopSense - Autonomous Startup Due Diligence
 
+## 📝 Submission Info
+- **Öğrenci no:** 231118053
+- **Slug:** nokta-sengk
+- **Track:** B (Slop Detector)
+
+## ✅ Checklist
+- [x] Yalnızca `submissions/231118053-nokta-sengk/` altında değişiklik yaptım
+- [x] README'de Expo QR link var
+- [x] README'de 60 sn demo video linki var
+- [x] `app-release.apk` klasörde mevcut
+- [x] README'de decision log yazdım
+- [x] Track seçimim README'de net
+
+## 🤖 AI Tool Log
+- **Google Gemini 3 Flash:** Kod geliştirme, özellik mimarisi (Expert Hub) ve dokümantasyon süreçlerinde Antigravity AI asistanı aracılığıyla kullanıldı.
+- **Expo EAS:** Bulut tabanlı Android APK derleme süreci için kullanıldı.
+
+---
+
 ## 🎯 Track Selection
 This project is built for **Track B: Slop Detector**. 
 
@@ -46,9 +65,9 @@ SlopSense is an autonomous mobile agent that evaluates startup pitches and marke
 ---
 
 ## 👨‍💻 Author & Submission Info
-- **Project Folder:** `submissions/20210123-track-b-slop/`
-- **Total Meaningful Commits:** 5+
-- **Artifacts Included:** Source code, README, Documentation.
+- **Project Folder:** `submissions/231118053-nokta-sengk/`
+- **Total Meaningful Commits:** 10+
+- **Artifacts Included:** Source code, README, Documentation, APK.
 
 ---
 
