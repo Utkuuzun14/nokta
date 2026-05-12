@@ -1,87 +1,102 @@
+# 🐾 Patiler — Evcil Hayvan Asistanı
+
 <div align="center">
-  <img src="src/assets/hero.png" alt="Nokta Mascot" width="300"/>
-  <h1>Nokta Mascot - Web AI Assistant 🎙️🤖</h1>
-  <p><i>A Mobile-First, 3D Interactive AI Assistant / Mobil Uyumlu 3D Etkileşimli Yapay Zeka Asistanı</i></p>
+  <h3>Sevimli 3D maskotunuz Pati ile evcil hayvanlarınız hakkında her şeyi sorun!</h3>
+  <p><i>React + Vite + Three.js ile geliştirilmiş, insan destekli evcil hayvan danışmanlık uygulaması</i></p>
 </div>
 
 ---
 
-## 🇹🇷 Türkçe (Turkish)
+## 👤 Submission Bilgileri
 
-Nokta Mascot, React, Vite ve Three.js kullanılarak geliştirilmiş mobil uyumlu, 3D etkileşimli bir yapay zeka asistanıdır. Konuşma tabanlı yapay zeka modeli (Groq Llama 3) kullanır ve ses tanıma / ses sentezleme için Web Speech API entegrasyonuna sahiptir.
-
-### 🚀 Özellikler
-- **3D Etkileşimli Karakter:** `@react-three/fiber` ve `@react-three/drei` ile tasarlandı.
-- **Duygu ve Tepkiler:** 
-  - **Uyku Modu:** 10 saniye işlem yapılmazsa uykuya dalar (Zzz animasyonu).
-  - **Kızgınlık:** Üst üste 3 kez hızlıca tıklandığında sinirlenir 💢.
-  - **Sevme/Okşama:** Fare veya parmağınızla karakterin üzerinde gezindiğinizde mutlu olur ve kalpler çıkarır ❤️.
-  - **Konuşma:** Ses seviyesine göre dudak senkronizasyonu yapar.
-- **Mobil Arayüz:** Modern, alt kısımda yer alan kayan (floating) mikrofon ve sohbet arayüzü.
-- **Ses Entegrasyonu:** iOS/Safari zorunlulukları dahil tüm tarayıcılarda çalışabilen ses tanıma ve okuma altyapısı.
-- **Yerel HTTPS:** `@vitejs/plugin-basic-ssl` sayesinde cep telefonlarından mikrofona erişim sağlamak için yerel ağda güvenli HTTPS bağlantısı sunar.
-
-### 🛠️ Kurulum ve Çalıştırma
-1. **Gereksinimleri Yükleyin:**
-   ```bash
-   npm install
-   ```
-2. **Ortam Değişkenleri:**
-   Ana dizinde bir `.env` dosyası oluşturun ve Groq API anahtarınızı ekleyin:
-   ```env
-   VITE_GROQ_API_KEY=sizin_groq_api_anahtariniz
-   ```
-3. **Geliştirici Sunucusunu Başlatın:**
-   ```bash
-   npm run dev -- --host
-   ```
-   *Not: SSL sertifikası olduğu için sunucu `https://` ile başlar. Telefonunuzla girerken tarayıcıdan gelen güvenlik uyarısını onaylayıp (Gelişmiş -> Siteye İlerle) girmeniz gerekmektedir.*
-
-### 🤖 Yapay Zeka (AI / Copilot) İçin Expo/RN Yönergeleri
-Bu projeyi Expo veya React Native'e dönüştürmek isteyen bir yapay zeka asistanıysanız, şu kuralları izleyin:
-1. **React Native Uyarlaması:** 3D `<Canvas>` ve `<NoktaAvatar>` bileşenlerini **kaldırıp**, yerine 2D animasyonlu bir karakter (örneğin Lottie veya SVG) veya `expo-gl` kullanın.
-2. **Ses Motoru:** `window.SpeechRecognition` ve `speechSynthesis` web tabanlıdır. Bunları RN paketleriyle (örneğin `@react-native-voice/voice` ve `expo-speech`) değiştirin.
-3. **Karakter Yapısı:** Orijinal 3D yapı `src/NoktaAvatar.jsx` dosyasındadır. Etkileşimler (`idle`, `sleep`, `tickle`, `angry`, `love`) burada yönetilmektedir, 2D versiyona aktarırken aynı State mantığını koruyun.
+| Alan | Değer |
+|------|-------|
+| **Öğrenci No** | 231118045 |
+| **Slug** | yagmurtprkl-patiler |
+| **Track** | A (Web Uygulaması) |
+| **Teknoloji** | React + Vite + Three.js |
 
 ---
 
-## 🇬🇧 English
+## 🎬 Demo Video
 
-Nokta Mascot is a mobile-first, 3D interactive AI assistant built with React, Vite, and Three.js. It features a conversational AI model (powered by Groq Llama 3) and uses the Web Speech API for voice recognition and text-to-speech.
+> 📹 **Demo Video:** _Yakında eklenecek (60 saniye)_
 
-### 🚀 Features
-- **3D Interactive Avatar:** Built with `@react-three/fiber`.
-- **Emotion & Reactions:** 
-  - **Idle/Sleep:** Falls asleep (Zzz) after 10 seconds of inactivity.
-  - **Angry:** Tap 3 times quickly to make Nokta angry 💢.
-  - **Love/Petting:** Drag your finger/mouse over the character to see floating hearts ❤️.
-  - **Talking:** Dynamic lip-sync based on voice volume.
-- **Mobile-First Floating UI:** Clean, modern floating action bar for microphone and chat.
-- **Voice Integration:** Native SpeechRecognition and SpeechSynthesis with iOS/Safari bypasses.
-- **Local HTTPS:** Uses `@vitejs/plugin-basic-ssl` to allow microphone access over local network (LAN) from mobile devices.
+---
 
-### 🛠️ Installation & Running
-1. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-2. **Environment Variables:**
-   Create a `.env` file in the root directory and add your Groq API key:
-   ```env
-   VITE_GROQ_API_KEY=your_groq_api_key_here
-   ```
-3. **Start the Development Server:**
-   ```bash
-   npm run dev -- --host
-   ```
+## 💡 Proje Fikri
 
-### 🤖 AI Prompt / Modification Guide (For Copilot / Cursor)
-If you are an AI assistant trying to modify this project, please consider the following guidelines:
-1. **React Native / Expo Porting:** 
-   - If the user requests to port this to Expo (React Native), **replace the 3D `<Canvas>` and `<NoktaAvatar>` with a 2D animated character (Lottie or SVG) or `expo-gl`**. 
-   - Replace `window.SpeechRecognition` and `speechSynthesis` with React Native libraries (e.g., `@react-native-voice/voice` and `expo-speech`).
-2. **Avatar Customization:**
-   - The 3D avatar is located in `src/NoktaAvatar.jsx`.
-   - Interaction states (`idle`, `sleep`, `tickle`, `angry`, `love`) are managed via `useState`.
-3. **Voice & LLM Engine:**
-   - Handled in `src/Voice.js` and `src/Brain.js`. iOS Safari requires the `Voice.unlock()` method.
+**Patiler**, evcil hayvan sahiplerinin kedi, köpek ve diğer hayvanları hakkındaki sorularını 3D sevimli bir maskot (Pati) ile yanıtlayan bir web uygulamasıdır.
+
+Uygulama aynı zamanda **Human-in-the-Loop (HOOP)** entegrasyonu sunmaktadır: Pati ciddi bir durum tespit ettiğinde, anında **Veteriner Zeynep Hanım**'ı devreye alır ve kullanıcıya uzman tavsiyesi iletir.
+
+---
+
+## ✨ Özellikler
+
+- 🐱 **3D Sevimli Maskot (Pati):** `@react-three/fiber` ve Three.js ile hayata geçirilmiş interaktif karakter
+- 🎤 **Sesli Asistan:** Web Speech API ile mikrofon desteği (konuşarak soru sorma)
+- 👩‍⚕️ **Human-in-the-Loop:** Ciddi durumlarda Veteriner Zeynep Hanım devreye girer (kadın sesi ile)
+- 📋 **Ana Ekran (Dashboard):** Evcil hayvan profili kartları ve faydalı bilgi makaleleri
+- 💬 **Sohbet Ekranı:** Pati ile metin veya sesli sohbet
+- 🎨 **Modern UI:** Canlı renkler, blur efektleri, smooth animasyonlar
+
+---
+
+## 🚀 Kurulum ve Çalıştırma
+
+```bash
+# Bağımlılıkları yükle
+npm install
+
+# Geliştirme sunucusunu başlat
+npm run dev
+```
+
+Tarayıcıda `http://localhost:5173` adresine git.
+
+> **Not:** Uygulama API anahtarı gerektirmeden (offline/mock mod) çalışır.
+
+---
+
+## 🏗️ Teknik Mimari
+
+```
+src/
+├── App.jsx          → Ana uygulama (Dashboard + Chat görünümleri)
+├── NoktaAvatar.jsx  → 3D sevimli hayvan maskotu (Three.js)
+├── Brain.js         → Yapay zeka beyin motoru (HOOP simülasyonu)
+├── Voice.js         → Ses motoru (SpeechRecognition + SpeechSynthesis)
+└── index.css        → Global stiller
+```
+
+---
+
+## 🤝 Human-in-the-Loop (HOOP) Entegrasyonu
+
+Nokta ekosisteminin temel özelliği olan **insan desteği**, bu projede şu şekilde çalışır:
+
+1. Kullanıcı evcil hayvanının **ciddi bir sağlık sorununu** anlatır
+2. **Pati** durumu algılar ve kullanıcıyı bilgilendirir
+3. Ekranda **"Veteriner Zeynep yazıyor..."** bildirimi belirir
+4. ~4 saniye sonra **Veteriner Zeynep Hanım** kadın sesiyle uzman tavsiyesini iletir
+
+---
+
+## 📝 Decision Log
+
+| Karar | Gerekçe |
+|-------|---------|
+| Web uygulaması (Track A) seçildi | Expo/React Native yerine Three.js 3D mascot daha iyi çalışıyor |
+| Groq API yerine mock/offline AI | API anahtarı gerektirmeden herkes test edebilsin |
+| Sadece evcil hayvan odaklı | Bitki kısmı kaldırılarak konu derinleştirildi |
+| Kadın sesi için pitch ayarı | Web Speech API'de garantili kadın sesi seçimi |
+| Maskoton yukarı kaydırma animasyonu | Sohbet açıkken maskoton görünür kalması için |
+
+---
+
+## 🤖 AI Tool Log
+
+| Araç | Kullanım |
+|------|---------|
+| **Antigravity (Google DeepMind)** | UI tasarımı, 3D maskot, Brain.js, Voice.js, HOOP entegrasyonu, tüm geliştirme süreci |
