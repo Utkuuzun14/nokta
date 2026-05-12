@@ -113,6 +113,12 @@ Bu surum mevcut Expo projesi uzerinden devam eder. App adi **Nokta Game Pitch**
 olarak guncellendi; Expo proje slug'i EAS projectId ile uyumlu kalmasi icin
 `nokta-draft-231118081` olarak korunur.
 
+Son Android EAS build:
+https://expo.dev/accounts/samsun081/projects/nokta-draft-231118081/builds/97fccce6-b3a6-4b04-9ce6-95e642046dbb
+
+Son APK artifact:
+https://expo.dev/artifacts/eas/jLxLCw4QzEcd9LhktoM1Pe.apk
+
 ## 60 Saniyelik Demo
 
 Demo video linki:
@@ -123,6 +129,9 @@ https://youtube.com/shorts/jtwFCBSASho?feature=share
 Teslim APK dosyasi:
 
 `submissions/231118081-idea-distillery/app-release.apk`
+
+Bu APK 12 Mayis 2026 tarihinde EAS build `97fccce6-b3a6-4b04-9ce6-95e642046dbb`
+artifact'indan guncellendi.
 
 ## Karar Gunlugu
 

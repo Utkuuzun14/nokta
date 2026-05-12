@@ -4,3 +4,5 @@
 node_modules/
 .expo/
 dist/
+eas-build-*.log
+eas-build-*.txt
