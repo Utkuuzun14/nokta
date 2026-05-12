@@ -58,3 +58,43 @@ export const askGroq = async (messages: Message[]): Promise<string> => {
     throw new Error(uiMessage);
   }
 };
+
+const EXPERT_SYSTEM_PROMPT = `Sen bir analiz asistanısın. Yaşlı bir bireyden gelen mesajı inceleyerek, bu mesajın bir uzman (Doktor, Sosyal Hizmet Uzmanı vb.) tarafından incelenmesi gerekip gerekmediğine karar vereceksin. Mesajda medikal bir soru, ağrı şikayeti, psikolojik destek ihtiyacı veya profesyonel müdahale gerektiren bir durum varsa "true" döndür. Sadece sıradan bir sohbet veya gönüllünün çözebileceği basit bir alışveriş/yardım talebiyse "false" döndür. SADECE "true" veya "false" kelimesi ile yanıt ver, başka hiçbir açıklama yapma.`;
+
+export const analyzeExpertNeed = async (message: string): Promise<boolean> => {
+  if (!API_KEY) {
+    throw new Error('API Anahtarı (.env) okunamıyor');
+  }
+
+  const payload = {
+    messages: [
+      { role: 'system', content: EXPERT_SYSTEM_PROMPT },
+      { role: 'user', content: message }
+    ],
+    model: 'llama3-70b-8192',
+    temperature: 0.1,
+    max_tokens: 10,
+  };
+
+  try {
+    const response = await axios.post(
+      GROQ_API_URL,
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_KEY}`,
+        },
+        timeout: 10000,
+      }
+    );
+
+    const result = response.data.choices[0].message.content.trim().toLowerCase();
+    return result.includes('true');
+  } catch (error) {
+    console.error('Uzman analiz hatası:', error);
+    // Hata durumunda güvenlik amacıyla uzmana yönlendirilebilir, ancak MVP'de false dönebiliriz.
+    return false;
+  }
+};
+
