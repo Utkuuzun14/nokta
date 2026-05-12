@@ -105,6 +105,10 @@ Scope, mimari ve UX üzerine verilen kararlar — her biri puan verilebilir bir 
 **Seçim:** Uygulama dark mode'da açılır; `#0D1117` zemin, `#2F7AC2` primary, `#898200` tertiary.
 **Neden:** Stitch'teki dark paletle uyum + yaratıcıların çoğu IDE/Figma'da dark mode kullanıyor → dokunsal tutarlılık.
 
+### 11. İnsan Desteği: HITL — Uzman Spec Düzenleme Kapısı
+**Seçim:** Spec üretildikten sonra kullanıcı 3 uzman profilinden birini seçer. Uzman spec'i bölüm bölüm görebilir, istediği bölümü bottom-sheet modal üzerinden düzenler. Değiştirilen bölümler spec ekranına "✓ Uzman Düzenledi" badge + yeşil border ile geri yansır. Düzenlemeler `AsyncStorage`'a `expertEdits` map olarak kaydedilir; `useFocusEffect` ile spec ekranı her odaklanmada güncel durumu yükler.
+**Neden:** Çoğu HITL implementasyonu pasif onay/ret akışından ibaret. Tohum'un uzman desteği ise AI çıktısını gerçekten değiştirebilir — bu nokta-hoop'un "uzman geri bildirimi kalıcı bilgi tabanına yazılmalı" tezini mobil katmanda somutlaştırıyor. 7 bölümlü `idea.md` standardı sayesinde hangi bölümün uzman tarafından değiştirildiği net izlenebilir; bu gelecekte diff/audit trail altyapısına zemin hazırlar.
+
 ---
 
 ## Kapsam Dışı Tutulanlar
@@ -124,7 +128,7 @@ Açık bir dille yazıyorum çünkü `idea.md`'nin *"Ne Yapmaz"* disiplini submi
 
 `challenge.md` kuralı: *"AI tool serbest, logla"*.
 
-- **Claude Code CLI (Opus 4.7, 1M context)** — planlama, mimari karar, `idea.md` yazımı, prompt mühendisliği, tüm React Native kod üretimi ve commit yönetimi.
+- **Claude Code CLI (Sonnet 4.6, 200K context)** — planlama, mimari karar, `idea.md` yazımı, prompt mühendisliği, tüm React Native kod üretimi, HITL akış tasarımı ve commit yönetimi.
 - **Anthropic Claude Sonnet 4.6** — uygulama içindeki AI motoru (Tohum'un kendi runtime LLM'i).
 - **Stitch (Google)** — ilk tasarım draft'ı (palette, tipografi, ekran yerleşimi); final UI Stitch'ten saparak repo standartlarına göre rafine edildi.
 
@@ -147,7 +151,9 @@ submissions/231118098-tohum/
 │   │   ├── _layout.tsx             ← Font yükleme + root stack
 │   │   ├── index.tsx               ← Yeni Nokta (giriş)
 │   │   ├── chat.tsx                ← Nokta Chat
-│   │   ├── spec.tsx                ← Spec Hazır (idea.md render)
+│   │   ├── spec.tsx                ← Spec Hazır (idea.md render + uzman düzenlemeleri)
+│   │   ├── expert-list.tsx         ← Uzman seçim ekranı (HITL)
+│   │   ├── expert-review.tsx       ← Uzman görüşü + bölüm düzenleme (HITL)
 │   │   └── history.tsx             ← Fikirlerim
 │   ├── components/
 │   │   ├── chat/
@@ -163,7 +169,8 @@ submissions/231118098-tohum/
 │   │   ├── theme.ts                ← Stitch paleti + tipografi tokenleri
 │   │   ├── prompt.ts               ← Nokta AI system prompt (6 kural)
 │   │   ├── schema.ts               ← AI cevap şeması + runtime doğrulama
-│   │   └── idea-md.ts              ← Final manifesto parser
+│   │   ├── idea-md.ts              ← Final manifesto parser
+│   │   └── experts.ts              ← Mock uzman profilleri (HITL)
 │   └── services/
 │       ├── ai/
 │       │   ├── index.ts            ← askNokta() dış arayüz
