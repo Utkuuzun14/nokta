@@ -1,10 +1,10 @@
-const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY || 'AIzaSyCfE8dJBvcFpWYYO0O5AujkRobRR7LBqjI';
-const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
+const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 export const generateGeminiResponse = async (prompt, history = [], audioBase64 = null, imageBase64 = null) => {
   try {
     const contents = [...history];
-    
+
     const parts = [];
     if (audioBase64) {
       parts.push({
