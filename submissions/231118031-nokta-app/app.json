@@ -17,7 +17,8 @@
         "foregroundImage": "./assets/hero.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.zeynepbakirman.noktaapp"
     },
     "web": {
       "output": "static",
@@ -40,6 +41,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5e23ad5b-5c7b-48db-9161-ce2e58f28998"
+      }
     }
   }
 }
