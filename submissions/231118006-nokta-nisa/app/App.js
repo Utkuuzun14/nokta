@@ -262,32 +262,32 @@ export default function App() {
           </View>
         ) : view === 'VISION' ? (
           <View style={styles.visionView}>
-            <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-              <View style={styles.visionOverlay}>
-                <View style={styles.glassHeader}>
-                  <Text style={styles.visionText}>Gözlem Modu</Text>
-                  <Text style={styles.visionSubText}>{facing === 'back' ? 'Çevreni analiz ediyorum...' : 'Seni görüyorum!'}</Text>
-                </View>
-
-                <View style={styles.visionControls}>
-                  <TouchableOpacity onPress={toggleCamera} style={styles.visionSubButton}>
-                    <Repeat color="#fff" size={24} />
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
-                    <View style={styles.captureInner} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => setView('AVATAR')} style={styles.visionSubButton}>
-                    <X color="#fff" size={24} />
-                  </TouchableOpacity>
-                </View>
+            <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+            <View style={styles.visionOverlay}>
+              <View style={styles.glassHeader}>
+                <Text style={styles.visionText}>Gözlem Modu</Text>
+                <Text style={styles.visionSubText}>{facing === 'back' ? 'Çevreni analiz ediyorum...' : 'Seni görüyorum!'}</Text>
               </View>
-            </CameraView>
+
+              <View style={styles.visionControls}>
+                <TouchableOpacity onPress={toggleCamera} style={styles.visionSubButton}>
+                  <Repeat color="#fff" size={24} />
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
+                  <View style={styles.captureInner} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => setView('AVATAR')} style={styles.visionSubButton}>
+                  <X color="#fff" size={24} />
+                </TouchableOpacity>
+              </View>
+            </View>
             <View style={styles.avatarMini}>
               <Image source={require('./assets/nokta_robot.png')} style={{ width: '100%', height: '100%', borderRadius: 40 }} />
             </View>
           </View>
+
 
         ) : (
           <SafeAreaView style={styles.chatView}>
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   // Vision View
   visionView: { flex: 1, backgroundColor: '#000' },
   camera: { flex: 1 },
-  visionOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.2)', justifyContent: 'space-between', padding: 20 },
+  visionOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.2)', justifyContent: 'space-between', padding: 20 },
   visionControls: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: 40 },
   visionSubButton: { width: 50, height: 50, borderRadius: 25, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },
   captureButton: { width: 80, height: 80, borderRadius: 40, backgroundColor: 'rgba(255,255,255,0.3)', padding: 5, borderWidth: 2, borderColor: '#fff' },
