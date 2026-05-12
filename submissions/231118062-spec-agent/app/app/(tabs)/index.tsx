@@ -1,247 +1,239 @@
 import React, { useState } from 'react';
-import { 
-  StyleSheet, Text, TextInput, View, ScrollView, 
-  TouchableOpacity, ActivityIndicator, Alert, Clipboard, 
-  Dimensions, KeyboardAvoidingView, Platform, Share 
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 
-export default function SpecAgent() {
-  const [step, setStep] = useState(1);
-  const [idea, setIdea] = useState('');
-  const [questions, setQuestions] = useState('');
-  const [answers, setAnswers] = useState('');
-  const [finalSpec, setFinalSpec] = useState('');
-  const [loading, setLoading] = useState(false);
+export default function Index() {
+  const [input, setInput] = useState('');
+  const [cards, setCards] = useState<
+    { id: number; title: string; description: string; source: string }[]
+  >([]);
 
-  const GEMINI_API_KEY = "AIzaSyBiQsIlPwnLp574Zfz4XFtRbqp-dbOmsfc";
-  const BASE_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+  const [expertName, setExpertName] = useState('');
+  const [expertQuestion, setExpertQuestion] = useState('');
+  const [expertMessage, setExpertMessage] = useState('');
 
-  // ADIM 1: Analiz ve Soru Üretimi
-  const generateQuestions = async () => {
-    if (!idea) return Alert.alert("Hata", "Lütfen bir proje fikri girin.");
-    setLoading(true);
-    try {
-      const prompt = `Sen kıdemli bir yazılım mimarısın. Şu ham fikre 4 teknik soru sor (Problem, User, Scope, Constraint): "${idea}"`;
-      const response = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-      const data = await response.json();
-      setQuestions(data.candidates[0].content.parts[0].text);
-      setStep(2);
-    } catch (e) { Alert.alert("Hata", "Bağlantı hatası oluştu."); }
-    finally { setLoading(false); }
+  const generateCards = () => {
+    const lines = input
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+
+    const uniqueLines = [...new Set(lines)];
+
+    const generated = uniqueLines.map((item, index) => ({
+      id: index + 1,
+      title: `Fikir ${index + 1}`,
+      description: item,
+      source: 'Kullanıcı notu',
+    }));
+
+    setCards(generated);
   };
 
-  // ADIM 2: Final Spec + Skor + Tech Stack Üretimi
-  const generateFinalSpec = async () => {
-    if (!answers) return Alert.alert("Hata", "Lütfen soruları cevaplayın.");
-    setLoading(true);
-    try {
-      const prompt = `Aşağıdaki verilerle profesyonel bir PRD oluştur. 
-      EK OLARAK: Dokümanın en başına [MÜHENDİSLİK PUANI: 0-100] ekle ve en sonuna 'Önerilen Teknoloji Yığını' (Frontend, Backend, DB) tablosu koy. 
-      Fikir: ${idea}. Sorular: ${questions}. Cevaplar: ${answers}`;
-
-      const response = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-      const data = await response.json();
-      setFinalSpec(data.candidates[0].content.parts[0].text);
-      setStep(3);
-    } catch (e) { Alert.alert("Hata", "Spec oluşturulamadı."); }
-    finally { setLoading(false); }
-  };
-
-  // YENİ EKLENEN: UZMAN DESTEĞİ (HITL) FONKSİYONU
-  const handleExpertSupport = () => {
-    Alert.alert(
-      "Uzman Onay Talebi",
-      "Raporunuz kıdemli mühendislerimize (Expert Support) iletildi. İnceleme sonrası 'Verified' mührü alacaksınız.",
-      [{ text: "Tamam" }]
-    );
-  };
-
-  // ADIM 3: Native Paylaşım Özelliği
-  const onShare = async () => {
-    try {
-      await Share.share({
-        message: `NOKTA Spec-Agent Mühendislik Raporu:\n\n${finalSpec}`,
-      });
-    } catch (error) {
-      Alert.alert("Hata", "Paylaşım başarısız oldu.");
+  const requestExpertSupport = () => {
+    if (!expertName.trim() || !expertQuestion.trim()) {
+      setExpertMessage('Lütfen adınızı ve destek konusunu doldurun.');
+      return;
     }
-  };
 
-  const resetProject = () => {
-    setStep(1); setIdea(''); setQuestions(''); setAnswers(''); setFinalSpec('');
+    setExpertMessage(
+      'Uzman destek talebiniz alındı. Bir uzman fikrinizi inceleyerek geri bildirim sağlayacaktır.'
+    );
+
+    setExpertName('');
+    setExpertQuestion('');
   };
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <View style={styles.header}>
-        <View style={styles.headerCircle} />
-        <Text style={styles.headerTitle}>NOKTA</Text>
-        <Text style={styles.headerSubtitle}>Engineering AI Agent v3.0</Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>NOKTA - Not Ayırıcı</Text>
+        <Text style={styles.subtitle}>
+          Notlarını yapıştır, tekrarları temizle, idea card olarak gör.
+        </Text>
 
-      {/* Stepper */}
-      <View style={styles.stepperContainer}>
-        {['Analiz', 'Girdi', 'Rapor'].map((label, i) => (
-          <View key={i} style={styles.stepWrapper}>
-            <View style={[styles.stepCircle, step > i ? styles.stepActive : styles.stepInactive]}>
-              <Text style={[styles.stepNumber, { color: step > i ? '#fff' : '#64748B' }]}>{i + 1}</Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          placeholder="Buraya notlarını yapıştır..."
+          value={input}
+          onChangeText={setInput}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={generateCards}>
+          <Text style={styles.buttonText}>Idea Card Oluştur</Text>
+        </TouchableOpacity>
+
+        <View style={styles.cardsContainer}>
+          {cards.map((card) => (
+            <View key={card.id} style={styles.card}>
+              <Text style={styles.cardTitle}>{card.title}</Text>
+              <Text style={styles.cardText}>{card.description}</Text>
+              <Text style={styles.cardSource}>Kaynak: {card.source}</Text>
             </View>
-            <Text style={[styles.stepLabel, step > i && styles.labelActive]}>{label}</Text>
-          </View>
-        ))}
-        <View style={styles.stepLine} />
-      </View>
+          ))}
+        </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        
-        {step === 1 && (
-          <View style={styles.card}>
-            <Text style={styles.inputLabel}>PROJE FİKRİ</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Neyi çözmek istiyorsun Utku?"
-              placeholderTextColor="#94A3B8"
-              multiline
-              value={idea}
-              onChangeText={setIdea}
-            />
-            <TouchableOpacity style={styles.primaryButton} onPress={generateQuestions} disabled={loading}>
-              {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>AI Mimarını Çalıştır →</Text>}
-            </TouchableOpacity>
-          </View>
-        )}
+        <View style={styles.expertBox}>
+          <Text style={styles.expertTitle}>Uzman Desteği</Text>
+          <Text style={styles.expertSubtitle}>
+            Fikrinin bir uzman tarafından yorumlanmasını istiyorsan destek talebi oluştur.
+          </Text>
 
-        {step === 2 && (
-          <View style={styles.card}>
-            <Text style={styles.inputLabel}>MÜHENDİSLİK ANALİZİ</Text>
-            <View style={styles.aiMessageBubble}>
-              <Text style={styles.aiMessageText}>{questions}</Text>
-            </View>
-            <TextInput
-              style={[styles.input, { minHeight: 180 }]}
-              placeholder="Teknik detayları buraya yapıştır..."
-              placeholderTextColor="#94A3B8"
-              multiline
-              value={answers}
-              onChangeText={setAnswers}
-            />
-            <TouchableOpacity style={styles.primaryButton} onPress={generateFinalSpec} disabled={loading}>
-              {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>PRD & Tech Stack Üret</Text>}
-            </TouchableOpacity>
-          </View>
-        )}
+          <TextInput
+            style={styles.smallInput}
+            placeholder="Adınız"
+            value={expertName}
+            onChangeText={setExpertName}
+          />
 
-        {step === 3 && (
-          <View style={styles.card}>
-            <View style={styles.reportBadge}>
-              <Text style={styles.reportBadgeText}>MÜHENDİSLİK RAPORU HAZIR</Text>
-            </View>
-            <ScrollView style={styles.specContainer} nestedScrollEnabled={true}>
-              <Text style={styles.specText}>{finalSpec}</Text>
-            </ScrollView>
+          <TextInput
+            style={styles.expertInput}
+            multiline
+            placeholder="Uzmandan hangi konuda destek almak istiyorsunuz?"
+            value={expertQuestion}
+            onChangeText={setExpertQuestion}
+          />
 
-            {/* YENİ EKLENEN: UZMAN DESTEĞİ BUTONU */}
-            <TouchableOpacity 
-              onPress={handleExpertSupport}
-              style={{ backgroundColor: '#8B5CF6', padding: 16, borderRadius: 14, marginBottom: 15, alignItems: 'center' }}
-            >
-              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>
-                👨‍🏫 Uzman Onayına Gönder (HITL)
-              </Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.expertButton} onPress={requestExpertSupport}>
+            <Text style={styles.buttonText}>Uzman Desteği İste</Text>
+          </TouchableOpacity>
 
-            <View style={styles.buttonRow}>
-              <TouchableOpacity style={[styles.secondaryButton, {backgroundColor: '#10B981'}]} onPress={onShare}>
-                <Text style={styles.buttonText}>Paylaş / Gönder</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.secondaryButton, {backgroundColor: '#64748B'}]} onPress={resetProject}>
-                <Text style={styles.buttonText}>Sıfırla</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
+          {expertMessage.length > 0 && (
+            <Text style={styles.successText}>{expertMessage}</Text>
+          )}
+        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { 
-    paddingTop: 60, paddingBottom: 20, alignItems: 'center', backgroundColor: '#fff',
-    borderBottomWidth: 1, borderBottomColor: '#E2E8F0' 
+  container: {
+    flex: 1,
+    backgroundColor: '#f4f6fb',
   },
-  headerCircle: {
-    position: 'absolute', top: -50, right: -50, width: 150, height: 150,
-    borderRadius: 75, backgroundColor: '#E0F2FE', opacity: 0.5
+  content: {
+    padding: 20,
+    paddingBottom: 60,
   },
-  headerTitle: { fontSize: 24, fontWeight: '900', color: '#0F172A', letterSpacing: 2 },
-  headerSubtitle: { fontSize: 12, color: '#94A3B8', fontWeight: 'bold' },
-  
-  stepperContainer: { 
-    flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 60, 
-    paddingVertical: 20, backgroundColor: '#fff' 
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 8,
+    color: '#1f2937',
   },
-  stepWrapper: { alignItems: 'center', zIndex: 2 },
-  stepCircle: { 
-    width: 32, height: 32, borderRadius: 16, justifyContent: 'center', alignItems: 'center',
-    borderWidth: 2, backgroundColor: '#fff'
+  subtitle: {
+    fontSize: 15,
+    color: '#4b5563',
+    marginBottom: 16,
   },
-  stepActive: { borderColor: '#007AFF', backgroundColor: '#007AFF' },
-  stepInactive: { borderColor: '#CBD5E1', backgroundColor: '#fff' },
-  stepNumber: { fontSize: 14, fontWeight: 'bold' },
-  stepLabel: { fontSize: 10, marginTop: 4, color: '#94A3B8', fontWeight: 'bold' },
-  labelActive: { color: '#007AFF' },
-  stepLine: { 
-    position: 'absolute', top: 36, left: 60, right: 60, height: 2, 
-    backgroundColor: '#E2E8F0', zIndex: 1 
+  input: {
+    minHeight: 180,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 14,
+    textAlignVertical: 'top',
+    fontSize: 15,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
   },
-
-  scrollContent: { padding: 20 },
-  card: { 
-    backgroundColor: '#fff', borderRadius: 24, padding: 24,
-    shadowColor: "#000", shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.1, shadowRadius: 20, elevation: 8
+  smallInput: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 14,
+    fontSize: 15,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
   },
-  inputLabel: { fontSize: 12, fontWeight: '900', color: '#64748B', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 },
-  input: { 
-    backgroundColor: '#F1F5F9', borderRadius: 16, padding: 18, fontSize: 15, color: '#1E293B',
-    textAlignVertical: 'top', minHeight: 140, marginBottom: 20, borderWidth: 1, borderColor: '#E2E8F0', lineHeight: 22
+  expertInput: {
+    minHeight: 110,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 14,
+    textAlignVertical: 'top',
+    fontSize: 15,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
   },
-  primaryButton: { 
-    backgroundColor: '#007AFF', borderRadius: 16, paddingVertical: 18, 
-    alignItems: 'center'
+  button: {
+    backgroundColor: '#2563eb',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 20,
   },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  
-  aiMessageBubble: { 
-    backgroundColor: '#E0F2FE', padding: 18, borderRadius: 20, 
-    borderBottomLeftRadius: 4, marginBottom: 20 
+  expertButton: {
+    backgroundColor: '#16a34a',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 12,
   },
-  aiMessageText: { color: '#0369A1', fontSize: 14, lineHeight: 20, fontWeight: '600' },
-  
-  reportBadge: {
-    alignSelf: 'center', backgroundColor: '#0F172A', paddingHorizontal: 12, paddingVertical: 4, 
-    borderRadius: 20, marginBottom: 15
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
-  reportBadgeText: { color: '#fff', fontSize: 10, fontWeight: 'bold' },
-
-  specContainer: { 
-    backgroundColor: '#F8FAFC', borderRadius: 16, padding: 15, 
-    borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 20, maxHeight: 350
+  cardsContainer: {
+    gap: 12,
   },
-  specText: { fontSize: 13, color: '#334155', lineHeight: 20 },
-  buttonRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  secondaryButton: { flex: 0.48, borderRadius: 14, paddingVertical: 15, alignItems: 'center' }
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    marginBottom: 12,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 8,
+    color: '#111827',
+  },
+  cardText: {
+    fontSize: 15,
+    color: '#374151',
+    marginBottom: 8,
+  },
+  cardSource: {
+    fontSize: 12,
+    color: '#6b7280',
+  },
+  expertBox: {
+    marginTop: 24,
+    backgroundColor: '#eefdf3',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#bbf7d0',
+  },
+  expertTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#14532d',
+    marginBottom: 6,
+  },
+  expertSubtitle: {
+    fontSize: 14,
+    color: '#166534',
+    marginBottom: 14,
+  },
+  successText: {
+    marginTop: 4,
+    fontSize: 14,
+    color: '#166534',
+    fontWeight: '600',
+  },
 });
