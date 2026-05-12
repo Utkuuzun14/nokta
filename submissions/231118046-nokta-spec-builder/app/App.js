@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
+import { detectEscalationNeed } from './utils/escalation';
+import EscalationReview from './components/EscalationReview';
 
 export default function App() {
   const [step, setStep] = useState(1);
@@ -10,6 +12,9 @@ export default function App() {
     q3: "",
     q4: ""
   });
+  const [escalationState, setEscalationState] = useState(null);
+  const [escalationTopic, setEscalationTopic] = useState(null);
+  const [mentorFeedback, setMentorFeedback] = useState(null);
 
   const renderStep1 = () => (
     <View style={styles.card}>
@@ -92,12 +97,39 @@ export default function App() {
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.button, styles.flexButton]} 
-            onPress={() => setStep(3)}>
+            onPress={() => {
+              const allText = `${idea} ${answers.q1} ${answers.q2} ${answers.q3} ${answers.q4}`;
+              const topic = detectEscalationNeed(allText);
+              if (topic) {
+                setEscalationTopic(topic);
+                setEscalationState('suggested');
+                setStep('review');
+              } else {
+                setStep(3);
+              }
+            }}>
             <Text style={styles.buttonText}>Generate Spec</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
+  );
+
+  const renderReview = () => (
+    <EscalationReview 
+      topic={escalationTopic}
+      escalationState={escalationState}
+      onAccept={() => setEscalationState('pending')}
+      onDecline={() => {
+        setEscalationState(null);
+        setStep(3);
+      }}
+      onResolve={(feedback) => {
+        setMentorFeedback(feedback);
+        setEscalationState('resolved');
+        setStep(3);
+      }}
+    />
   );
 
   const renderStep3 = () => (
@@ -109,6 +141,13 @@ export default function App() {
           <Text style={styles.specLabel}>Elevator Pitch</Text>
           <Text style={styles.specValue}>{idea}</Text>
         </View>
+
+        {mentorFeedback && (
+          <View style={[styles.specSection, styles.mentorSection]}>
+            <Text style={[styles.specLabel, styles.mentorLabel]}>Expert Mentor Feedback</Text>
+            <Text style={styles.specValue}>{mentorFeedback}</Text>
+          </View>
+        )}
 
         <View style={styles.specSection}>
           <Text style={styles.specLabel}>Problem Statement</Text>
@@ -141,6 +180,9 @@ export default function App() {
             setStep(1);
             setIdea("");
             setAnswers({q1: "", q2: "", q3: "", q4: ""});
+            setEscalationState(null);
+            setEscalationTopic(null);
+            setMentorFeedback(null);
           }}>
           <Text style={styles.buttonText}>Start Over</Text>
         </TouchableOpacity>
@@ -155,6 +197,7 @@ export default function App() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
+        {step === 'review' && renderReview()}
         {step === 3 && renderStep3()}
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -292,5 +335,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0f172a',
     lineHeight: 24,
+  },
+  mentorSection: {
+    backgroundColor: '#ecfdf5',
+    borderLeftColor: '#10b981',
+  },
+  mentorLabel: {
+    color: '#047857',
   }
 });
