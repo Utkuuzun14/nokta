@@ -2,7 +2,6 @@
 
 > **Öğrenci No:** 231118003
 > **Track:** A — Dot Capture & Enrich
-> **Süre:** Yaklaşık 2.5 Saat (Geliştirme + Build + Optimizasyon)
 
 ---
 
@@ -62,6 +61,11 @@ Ham fikirleri ("nokta") yakalayıp, mühendislik disiplini ile sorgulayan ve aya
 
 ---
 
+expert-support-odevi
 ## ✨ Bonus Capability (+10 Puan)
 **1. Engineering-Guided AI Loop:** Uygulama sadece metin üretmez; kullanıcıyı 5 aşamalı bir "Engineering Trace" sürecine sokar. Bu süreç, fikrin "slop" (çöp veri) olmasını engelleyerek gerçek bir ürün iskeleti oluşmasını sağlar.
 **2. Expert Critique Loop (Human-in-the-Loop):** Fikir üretildikten sonra, sisteme dahil olan gerçek bir uzmanın uygulamaya "Eleştiri/Yönlendirme" yazması sağlanır. Yapay zeka bu insan yönlendirmesini (feedback) girdi olarak kabul edip, dokümanı uzmanın isteğine göre anında yeniden yazar. Gerçek bir AI-İnsan işbirliği sunar.
+
+## ✨ Bonus Capability 
+**Engineering-Guided AI Loop:** Uygulama sadece metin üretmez; kullanıcıyı 5 aşamalı bir "Engineering Trace" sürecine sokar. Bu süreç, fikrin "slop" (çöp veri) olmasını engelleyerek gerçek bir ürün iskeleti oluşmasını sağlar.
+ main
