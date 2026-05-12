@@ -4,7 +4,20 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import type { ExpertVerdict } from '@/constants/experts';
+
 const STORAGE_KEY = 'tohum:sessions:v1';
+
+export type ExpertReview = {
+  expertId: string;
+  expertName: string;
+  requestedAt: number;
+  status: 'pending' | 'reviewed';
+  comment?: string;
+  rating?: number;
+  verdict?: ExpertVerdict;
+  reviewedAt?: number;
+};
 
 export type SavedSession = {
   id: string;
@@ -12,6 +25,7 @@ export type SavedSession = {
   title: string;
   tagline: string;
   idea_md: string;
+  expertReview?: ExpertReview;
 };
 
 export function generateSessionId(): string {
@@ -60,6 +74,19 @@ export async function deleteSession(id: string): Promise<void> {
 
 export async function clearSessions(): Promise<void> {
   await AsyncStorage.removeItem(STORAGE_KEY);
+}
+
+export async function getSession(id: string): Promise<SavedSession | null> {
+  const all = await readAll();
+  return all.find((s) => s.id === id) ?? null;
+}
+
+export async function updateSessionExpertReview(
+  id: string,
+  review: ExpertReview,
+): Promise<void> {
+  const all = await readAll();
+  await writeAll(all.map((s) => (s.id === id ? { ...s, expertReview: review } : s)));
 }
 
 function isSavedSession(value: unknown): value is SavedSession {

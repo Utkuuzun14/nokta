@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -18,6 +18,7 @@ import { generateSessionId, saveSessionIfNew } from '@/services/storage';
 export default function Spec() {
   const { md } = useLocalSearchParams<{ md: string }>();
   const [copied, setCopied] = useState(false);
+  const sessionIdRef = useRef<string>(generateSessionId());
 
   const raw = typeof md === 'string' ? md : '';
   const document = useMemo(() => parseIdeaMd(raw), [raw]);
@@ -25,7 +26,7 @@ export default function Spec() {
   useEffect(() => {
     if (!raw) return;
     void saveSessionIfNew({
-      id: generateSessionId(),
+      id: sessionIdRef.current,
       savedAt: Date.now(),
       title: document.title,
       tagline: document.tagline,
@@ -41,6 +42,17 @@ export default function Spec() {
 
   const onNewDot = () => {
     router.replace('/');
+  };
+
+  const onRequestExpert = async () => {
+    await saveSessionIfNew({
+      id: sessionIdRef.current,
+      savedAt: Date.now(),
+      title: document.title,
+      tagline: document.tagline,
+      idea_md: raw,
+    });
+    router.push({ pathname: '/expert-list', params: { sid: sessionIdRef.current } });
   };
 
   return (
@@ -85,6 +97,16 @@ export default function Spec() {
             />
           ))}
         </View>
+
+        <Pressable
+          onPress={onRequestExpert}
+          style={({ pressed }) => [
+            styles.expertBtn,
+            pressed && styles.expertBtnPressed,
+          ]}
+        >
+          <Text style={styles.expertBtnText}>Uzman Görüşü İste</Text>
+        </Pressable>
 
         <Pressable
           onPress={onNewDot}
@@ -186,19 +208,32 @@ const styles = StyleSheet.create({
   sections: {
     gap: spacing.md,
   },
-  newDot: {
+  expertBtn: {
     marginTop: spacing.lg,
     paddingVertical: spacing.lg,
     borderRadius: radius.lg,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+  },
+  expertBtnPressed: { opacity: 0.85 },
+  expertBtnText: {
+    fontFamily: typography.bodySemi,
+    fontSize: fontSize.md,
+    color: colors.bg,
+    fontWeight: '600',
+  },
+  newDot: {
+    paddingVertical: spacing.lg,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: colors.primary,
+    borderColor: colors.border,
     alignItems: 'center',
   },
   newDotPressed: { opacity: 0.85 },
   newDotText: {
     fontFamily: typography.bodySemi,
     fontSize: fontSize.md,
-    color: colors.primary,
+    color: colors.textMuted,
     fontWeight: '600',
   },
 });
