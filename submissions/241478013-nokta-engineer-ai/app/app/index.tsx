@@ -42,6 +42,15 @@ export default function Index() {
           <Text style={styles.buttonText}>Zenginleştir</Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity 
+        style={styles.expertButton} 
+        onPress={() => router.push('/expert')}
+        accessibilityLabel="Uzmana Danış Ekranına Git"
+        accessibilityRole="button"
+      >
+        <Text style={styles.expertButtonText}>UZMANA DANIŞ</Text>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
@@ -101,5 +110,22 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',
+  },
+  expertButton: {
+    backgroundColor: '#FF3B30', // Dikkat çekici, yüksek kontrastlı kırmızının tonu
+    borderRadius: 16,
+    paddingVertical: 20,
+    marginTop: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 80, // Minimum 48x48dp kuralını aşıyoruz
+    borderWidth: 2,
+    borderColor: '#ff8888',
+  },
+  expertButtonText: {
+    color: '#ffffff',
+    fontSize: 24, // Okunabilir büyük font
+    fontWeight: '900',
+    letterSpacing: 1,
   },
 });
