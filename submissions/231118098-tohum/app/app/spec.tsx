@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -13,11 +13,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SectionCard } from '@/components/spec/section-card';
 import { parseIdeaMd, serializeIdeaMd } from '@/constants/idea-md';
 import { colors, fontSize, radius, spacing, typography } from '@/constants/theme';
-import { generateSessionId, saveSessionIfNew } from '@/services/storage';
+import { generateSessionId, getSession, saveSessionIfNew } from '@/services/storage';
 
 export default function Spec() {
   const { md } = useLocalSearchParams<{ md: string }>();
   const [copied, setCopied] = useState(false);
+  const [expertEdits, setExpertEdits] = useState<Record<string, string>>({});
+  const sessionIdRef = useRef<string>(generateSessionId());
 
   const raw = typeof md === 'string' ? md : '';
   const document = useMemo(() => parseIdeaMd(raw), [raw]);
@@ -25,13 +27,22 @@ export default function Spec() {
   useEffect(() => {
     if (!raw) return;
     void saveSessionIfNew({
-      id: generateSessionId(),
+      id: sessionIdRef.current,
       savedAt: Date.now(),
       title: document.title,
       tagline: document.tagline,
       idea_md: raw,
     });
   }, [raw, document.title, document.tagline]);
+
+  useFocusEffect(
+    useCallback(() => {
+      getSession(sessionIdRef.current).then((session) => {
+        const edits = session?.expertReview?.expertEdits;
+        if (edits) setExpertEdits(edits);
+      });
+    }, []),
+  );
 
   const onCopy = async () => {
     await Clipboard.setStringAsync(serializeIdeaMd(raw));
@@ -41,6 +52,17 @@ export default function Spec() {
 
   const onNewDot = () => {
     router.replace('/');
+  };
+
+  const onRequestExpert = async () => {
+    await saveSessionIfNew({
+      id: sessionIdRef.current,
+      savedAt: Date.now(),
+      title: document.title,
+      tagline: document.tagline,
+      idea_md: raw,
+    });
+    router.push({ pathname: '/expert-list', params: { sid: sessionIdRef.current } });
   };
 
   return (
@@ -82,9 +104,21 @@ export default function Spec() {
               key={`${i}-${section.heading}`}
               heading={section.heading}
               body={section.body}
+              expertEdited={!!expertEdits[section.heading]}
+              expertText={expertEdits[section.heading]}
             />
           ))}
         </View>
+
+        <Pressable
+          onPress={onRequestExpert}
+          style={({ pressed }) => [
+            styles.expertBtn,
+            pressed && styles.expertBtnPressed,
+          ]}
+        >
+          <Text style={styles.expertBtnText}>Uzman Görüşü İste</Text>
+        </Pressable>
 
         <Pressable
           onPress={onNewDot}
@@ -186,19 +220,32 @@ const styles = StyleSheet.create({
   sections: {
     gap: spacing.md,
   },
-  newDot: {
+  expertBtn: {
     marginTop: spacing.lg,
     paddingVertical: spacing.lg,
     borderRadius: radius.lg,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+  },
+  expertBtnPressed: { opacity: 0.85 },
+  expertBtnText: {
+    fontFamily: typography.bodySemi,
+    fontSize: fontSize.md,
+    color: colors.bg,
+    fontWeight: '600',
+  },
+  newDot: {
+    paddingVertical: spacing.lg,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: colors.primary,
+    borderColor: colors.border,
     alignItems: 'center',
   },
   newDotPressed: { opacity: 0.85 },
   newDotText: {
     fontFamily: typography.bodySemi,
     fontSize: fontSize.md,
-    color: colors.primary,
+    color: colors.textMuted,
     fontWeight: '600',
   },
 });
