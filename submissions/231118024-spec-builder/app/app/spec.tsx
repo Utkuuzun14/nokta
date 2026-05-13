@@ -8,10 +8,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '@/constants/Colors';
 
 export default function SpecScreen() {
-  const { summary, problem, user, scope } = useLocalSearchParams<{
+  const { summary, problem, targetAudience, scope } = useLocalSearchParams<{
     summary: string,
     problem: string,
-    user: string,
+    targetAudience: string,
     scope: string
   }>();
   const router = useRouter();
@@ -57,7 +57,7 @@ export default function SpecScreen() {
 
         <Section title="Fikir Özeti" content={summary || ''} icon="bulb" color="#f59e0b" />
         <Section title="Temel Problem" content={problem || ''} icon="flash" color="#ef4444" />
-        <Section title="Hedef Kullanıcılar" content={user || ''} icon="people" color="#3b82f6" />
+        <Section title="Hedef Kullanıcılar" content={targetAudience || ''} icon="people" color="#3b82f6" />
         <Section title="MVP Kapsamı" content={scope || ''} icon="rocket" color="#10b981" />
 
         <View style={styles.badgeRow}>
