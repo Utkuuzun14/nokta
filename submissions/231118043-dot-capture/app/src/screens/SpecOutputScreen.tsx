@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Share,
+  Linking,
 } from 'react-native';
 import { StackNavigationProp as NativeStackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -100,6 +101,12 @@ export default function SpecOutputScreen({ navigation, route }: Props) {
             <TouchableOpacity style={styles.retryBtn} onPress={loadSpec}>
               <Text style={styles.retryText}>Tekrar Dene</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.humanBtn}
+              onPress={() => Linking.openURL(`mailto:?subject=NOKTA%20Spec%20Yard%C4%B1m%C4%B1&body=Fikrim%3A%20${encodeURIComponent(idea)}%0A%0AAI%20spec%20olu%C5%9Fturamad%C4%B1.%20Bu%20fikri%20spec%27e%20d%C3%B6n%C3%BC%C5%9Ft%C3%BCrmeme%20yard%C4%B1mc%C4%B1%20olur%20musun%3F`)}
+            >
+              <Text style={styles.humanBtnText}>👤 Uzman Desteği Al</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -157,6 +164,8 @@ const styles = StyleSheet.create({
   errorText: { color: '#ff4444', fontSize: 14 },
   retryBtn: { marginTop: 12, padding: 10 },
   retryText: { color: '#6c47ff', fontSize: 14 },
+  humanBtn: { marginTop: 8, padding: 10, backgroundColor: '#1a1a1a', borderRadius: 8, borderWidth: 1, borderColor: '#333', alignItems: 'center' },
+  humanBtnText: { color: '#aaa', fontSize: 14 },
   footer: {
     position: 'absolute',
     bottom: 0,
